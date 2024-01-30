@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>price</title>
+    <link rel="stylesheet" type="text/css" href="static\style.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="bg_clr">
+        <div class="sel_col">
+            <div class="title">Car Price Prediction</div>
+
+            <div class="description">This site predict the price of car for you. Fill the form below::</div>
+
+            <form  method="post">
+
+                <div class = "form_col">
+                    <label for="manufacture">Select Company</label>
+                    <select name="manufacture" id="manufacture" required="1">
+                        {% for values in items["manufacture"] %}
+                        <option value="{{values}}">{{values}}</option>
+                        {% endfor %}
+                       
+                    </select>
+                </div>
+
+                
+                <div class = "form_col">
+                    <label>Select model</label>
+                    <select name="model" id="model" required="1">
+                        {% for values in items["model"] %}
+                        <option value="{{values}}">{{values}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class = "form_col">
+                    <label>Select year</label>
+                    <select name="year" id="year" required="1">
+                        {% for values in years %}
+                        <option value="{{values}}">{{values}}</option>
+                        {% endfor %}
+                        
+                    </select>
+                </div>
+                
+
+                <div class = "form_col">
+                    <label>Select Seller Type</label>
+                    <select name="Seller Type" id="Seller Type" required="1">
+                        {% for values in items["seller_type"] %}
+                        <option value="{{values}}">{{values}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class = "form_col">
+                    <label>Select transmission</label>
+                    <select name="transmission" id="transmission" required="1">
+                        {% for values in items["transmission"] %}
+                        <option value="{{values}}">{{values}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class = "form_col">
+                    <label>Select Owner type</label>
+                    <select name="owner" id="owner" required="1">
+                        {% for values in items["owner"] %}
+                        <option value="{{values}}">{{values}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+               
+
+                <div class = "form_col">
+                    <label>Select fuel type</label>
+                    <select name="fuel" id="fuel" required="1">
+                        {% for values in items["fuel"] %}
+                        <option value="{{values}}">{{values}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class = "form_col">
+                    <label>Select Number of seats</label>
+                    
+                    <select name="seats" id="seats" required>
+                        {% for values in seats %}
+                        <option value="{{values}}">{{values}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class = "form_col">
+                    <label>Enter Km Driven</label>
+                    <input type="number" name="km_driven" id="km_driven" placeholder="km_driven" required>
+                </div>
+
+                <div class = "form_col">
+                    <label>Enter max Power</label>
+                    <input type="number" name="max_power" id="max_power" placeholder="km_driven" required>
+                </div>
+
+                <div class = "form_col">
+                    <label>Enter Mileage</label>
+                    <input type="number" name="mileage" id="mileage" placeholder="Mileage" required>
+                </div>
+
+                <div class = "form_col">
+                    <label>Enter Engine</label>
+                    <input type="number" name="engine" id="engine" placeholder="Engine" required>
+                </div>
+
+                <div class = "form_col">
+                    
+                    <button class="btn" onclick="send_data()">Predict</button>
+                </div>
+
+
+
+            </form>
+            
+            <div class = "predict_result">
+                <h3><span id="prediction">Prediction:123456.6666</span></h3>
+    
+            </div>
+        </div>
+        
+
+
+    </div>
+
+
+
+     <script>
+        function form_handler(event){
+            event.preventDefault();
+        }
+
+        function send_data(){
+            document.querySelector("form").addEventListener("submit", form_handler)
+
+            var fd = new FormData(document.querySelector("form"));
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST","/predict",true);
+            document.getElementById("prediction").innerHTML="Wait! predicting the price......"
+            xhr.onreadystatechange=function(){
+                if(xhr.readyState == XMLHttpRequest.DONE)
+                {
+                    document.getElementById("prediction").innerHTML="prediction: "+xhr.responseText;
+                }
+            }
+            xhr.onload=function(){};
+            xhr.send(fd)
+        }
+
+
+
+     </script>
+          </body>
+
+</html>
